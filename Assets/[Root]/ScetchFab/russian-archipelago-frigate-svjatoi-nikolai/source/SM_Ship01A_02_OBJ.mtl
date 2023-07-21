@@ -1,0 +1,177 @@
+# Blender MTL File: 'Blend_Ship01A_ClosedSails.blend'
+# Material Count: 15
+
+newmtl M_Catherine
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.215861 0.215861 0.215861
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump T_Catherine_Normal.png
+map_Kd T_Catherine_Diffuse.png
+
+newmtl M_Fabric-Sails
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.215861 0.215861 0.215861
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump T_Fabric-Sails_Normal.png
+map_Kd T_Fabric-Sails_Diffuse.png
+
+newmtl M_Flag-RussianNaval
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd T_Flag-RussianNaval_Diffuse.png
+
+newmtl M_Glass
+Ns 728.999998
+Ka 1.000000 1.000000 1.000000
+Kd 0.514414 0.514414 0.514414
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl M_ManilaRope
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.215861 0.215861 0.215861
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump T_ManilaRope_Normal.png
+map_Kd T_ManilaRope_Diffuse.png
+
+newmtl M_Metal_01
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.215861 0.215861 0.215861
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump T_Metal_01_Normal.png
+map_Kd T_Metal_01_Diffuse.png
+
+newmtl M_Metal_02
+Ns 428.040315
+Ka 1.000000 1.000000 1.000000
+Kd 0.012702 0.012702 0.012702
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl M_Wood-Floor
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.215861 0.215861 0.215861
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump T_Wood-Floor_Normal.png
+map_Kd T_Wood-Floor_Diffuse.png
+
+newmtl M_WoodCeiling
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.215861 0.215861 0.215861
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump T_WoodCeiling_Normal.png
+map_Kd T_WoodCeiling_Diffuse.png
+
+newmtl M_WoodPainted-Black
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.215861 0.215861 0.215861
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump T_WoodPainted-Black_Normal.png
+map_Kd T_WoodPainted-Black_Diffuse.png
+
+newmtl M_WoodPainted-Red
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.215861 0.215861 0.215861
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump T_WoodPainted-Red_Normal.png
+map_Kd T_WoodPainted-Red_Diffuse.png
+
+newmtl M_WoodPainted-White
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.215861 0.215861 0.215861
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump T_WoodPainted-White_Normal.png
+map_Kd T_WoodPainted-White_Diffuse.png
+
+newmtl M_WoodPainted-Yellow
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.215861 0.215861 0.215861
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump T_WoodPainted-Yellow_Normal.png
+map_Kd T_WoodPainted-Yellow_Diffuse.png
+
+newmtl M_Wood_01
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.215861 0.215861 0.215861
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump T_Wood_01_Normal.png
+map_Kd T_Wood_01_Diffuse.png
+
+newmtl M_Wood_02
+Ns 179.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.215861 0.215861 0.215861
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump T_Wood_02_Normal.png
+map_Kd T_Wood_02_Diffuse.png

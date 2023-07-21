@@ -1,0 +1,17 @@
+{
+    "name": "TadWhat.Abstracts",
+    "rootNamespace": "",
+    "references": [
+        "GUID:cc7d10ff31a494545834c5a50e9b14b1",
+        "GUID:dd2a31b68abe0c64896a7d3f34e5765e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

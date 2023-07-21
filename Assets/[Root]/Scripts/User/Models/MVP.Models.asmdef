@@ -1,0 +1,20 @@
+{
+    "name": "MVP.Models",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9e2f76304dc831241a0949a94e5b9d0b",
+        "GUID:21b0c8d1703a94250bfac916590cea4f",
+        "GUID:27619889b8ba8c24980f49ee34dbb44a",
+        "GUID:cc7d10ff31a494545834c5a50e9b14b1",
+        "GUID:dd2a31b68abe0c64896a7d3f34e5765e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

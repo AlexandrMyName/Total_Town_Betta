@@ -1,0 +1,23 @@
+{
+    "name": "TadWhat.Core",
+    "rootNamespace": "",
+    "references": [
+        "GUID:21b0c8d1703a94250bfac916590cea4f",
+        "GUID:485e69b1bcef8b14b9bf0db444de0aee",
+        "GUID:9e2f76304dc831241a0949a94e5b9d0b",
+        "GUID:bc60ad16b476b2e479f55097c483f1af",
+        "GUID:6b8c7fdae54a1ed4483315540637587c",
+        "GUID:a3b8dbabe3085474c8a7f2fa6168afdb",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:dd2a31b68abe0c64896a7d3f34e5765e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
