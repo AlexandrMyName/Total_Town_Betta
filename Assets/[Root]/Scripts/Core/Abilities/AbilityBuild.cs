@@ -166,7 +166,7 @@ public class AbilityBuild : CmdExe<IBuildProccess>, IAmProccess, ICost
         if (_dialogView == null) return;
         else
         {
-            selectValue.Value = null;
+            selectValue.SetValue(null);
             _dialogView.SendDialog(_dialogs, 4, onEndDialog);
         }
     }

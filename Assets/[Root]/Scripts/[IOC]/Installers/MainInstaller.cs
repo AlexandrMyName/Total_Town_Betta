@@ -16,5 +16,7 @@ public class MainInstaller : MonoInstaller<MainInstaller>
 
         UserProfile profile = new UserProfile(79, 12, 5, 200);
         Container.Bind<IUserProfile>().FromInstance(profile).AsTransient();
+
+        Container.BindInterfacesAndSelfTo<TimerModel>().AsSingle();
     }
 }
