@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
-public class UserProfile : IUserProfile
+[CreateAssetMenu(fileName = nameof(UserProfile), menuName = "Profiles/" + nameof(UserProfile),order = 1)]
+public class UserProfile : ScriptableObject, IUserProfile
 {
-    public List<ICurrencyProfile> Currencies { get; }
+    public string UserName { get; set; }    
+    public List<ICurrencyProfile> Currencies { get; private set; }
 
 
-    public UserProfile(int woods, int diamonds, int workers, int irons)
+    public void Init(int woods, int diamonds, int workers, int irons)
     {
         Currencies = new List<ICurrencyProfile>();
         Currencies.Add(new CurrencyProfile(CurrencyType.Wood, woods));

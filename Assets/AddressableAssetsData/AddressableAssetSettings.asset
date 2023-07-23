@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: b8b7f1e7f7e1ec04c8bf0bc8b3cbed0e
   m_currentHash:
     serializedVersion: 2
-    Hash: c3c757ea6e8e7231fdb0f471408b019e
+    Hash: b48d049a14966a0cbac9a90bca0f1cc3
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -46,6 +46,26 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: bcf02e6a5d721084995bb92375a16aa7, type: 2}
   - {fileID: 11400000, guid: 377dec2f91bee3b4085bb44e603f3138, type: 2}
+  - {fileID: 11400000, guid: 8ff0733c636b14f4ab9753016a995cc1, type: 2}
+  - {fileID: 11400000, guid: db838f6f59b83714fa186e30db996cb6, type: 2}
+  - {fileID: 11400000, guid: 8e7b31ad11bff6044865b35f4db93ff0, type: 2}
+  - {fileID: 11400000, guid: 45255290ccfe4d94e9eaf807f5ae806b, type: 2}
+  - {fileID: 11400000, guid: 77d305fbb72d1d542aa212f3c25ef3c0, type: 2}
+  - {fileID: 11400000, guid: 04003c7918b90e747800d68f76d42709, type: 2}
+  - {fileID: 11400000, guid: 7c6ba9e1db81d954ab8c71251e63fd98, type: 2}
+  - {fileID: 11400000, guid: 5b9d1da0050c98f4381338eac38f6937, type: 2}
+  - {fileID: 11400000, guid: 6bd623f1f9e7e8b4e8ae5595ad221ec2, type: 2}
+  - {fileID: 11400000, guid: d360bdbb2b818a343aad15e6f6898687, type: 2}
+  - {fileID: 11400000, guid: fb1cefdffa4b32247b56af5b0d5e7497, type: 2}
+  - {fileID: 11400000, guid: f1337f256471b0043a7132cc223faa9f, type: 2}
+  - {fileID: 11400000, guid: f1edd4753bd45454bb61dad63822b550, type: 2}
+  - {fileID: 11400000, guid: 3dd62a6038032e948aa9518ce91746f0, type: 2}
+  - {fileID: 11400000, guid: 694f3e56cffc0434a99e49affafec0ce, type: 2}
+  - {fileID: 11400000, guid: d43253243b9ca2645a1a15f7b75ff72b, type: 2}
+  - {fileID: 11400000, guid: fd433b21651f8de4790362c3db12e581, type: 2}
+  - {fileID: 11400000, guid: 251c085a15877a845b5e557ba8ef5f07, type: 2}
+  - {fileID: 11400000, guid: a9fb880572d0db94ba7a1e38520b820a, type: 2}
+  - {fileID: 11400000, guid: 1442ad01006a28f4a896dcf9df049a1d, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -66,7 +86,7 @@ MonoBehaviour:
       - m_Id: b1bfbe816a7947845821a4563a163a90
         m_Value: ServerData/[BuildTarget]
       - m_Id: 77367ba7197547b479b4f4be2c792d78
-        m_Value: http://[PrivateIpAddress]:[HostingServicePort]
+        m_Value: https://storage.yandexcloud.net/totaltownbacket/TotalTown/Android
     m_ProfileEntryNames:
     - m_Id: acaf3dd3fa6d5ce4f950fd78a0f1700c
       m_Name: BuildTarget
@@ -87,6 +107,31 @@ MonoBehaviour:
   m_LabelTable:
     m_LabelNames:
     - default
+    - Locale
+    - Locale-ar
+    - Preload
+    - Locale-bg
+    - Locale-da
+    - Locale-de
+    - Locale-en
+    - Locale-es
+    - Locale-fr
+    - Locale-ja
+    - Locale-ko
+    - Locale-pl
+    - Locale-ru
+    - Locale-tr
+    - Locale-uk
+    - Locale-be
+    - Locale-it
+    - Locale-hy
+    - Locale-af
+    - Locale-ga
+    - Locale-zh-Hant
+    - Locale-ca
+    - Locale-zh-Hans
+    - Locale-cs
+    - Locale-de-DE
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 55bccc3e88f2f95419ae1cccfc541a74, type: 2}

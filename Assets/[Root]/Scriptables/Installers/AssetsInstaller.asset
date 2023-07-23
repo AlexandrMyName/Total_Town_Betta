@@ -16,3 +16,4 @@ MonoBehaviour:
   groundClickRMB: {fileID: 11400000, guid: ae5cfb5382d62524299b7c80f2b96b17, type: 2}
   selectableValue: {fileID: 11400000, guid: 3a612be6f51e0374b90e14c70d2a9e99, type: 2}
   attackableValue: {fileID: 11400000, guid: 382421c6fd863c04aa6b54a84c2b75cc, type: 2}
+  userDataProfile: {fileID: 11400000, guid: 43b484c23627c754ebf02b0130b98cdc, type: 2}

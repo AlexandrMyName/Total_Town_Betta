@@ -13,10 +13,6 @@ public class MainInstaller : MonoInstaller<MainInstaller>
         Container.Bind<CreatorExeCmd<IHoldPos>>().To<CreatorExe_HoldPos>().AsSingle();
         Container.Bind<CreatorExeCmd<IBuildProccess>>().To<CreatorExe_BuildProccess>().AsSingle();
         Container.Bind<CreatorExeCmd<IDelete>>().To<CreatorExe_Delete>().AsSingle();
-
-        UserProfile profile = new UserProfile(79, 12, 5, 200);
-        Container.Bind<IUserProfile>().FromInstance(profile).AsTransient();
-
         Container.BindInterfacesAndSelfTo<TimerModel>().AsSingle();
     }
 }

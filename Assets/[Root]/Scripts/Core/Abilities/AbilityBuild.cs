@@ -127,11 +127,12 @@ public class AbilityBuild : CmdExe<IBuildProccess>, IAmProccess, ICost
 
 
 
-        bool isHasWorkers = await _mainWorkersBuilding.Move(Workers, _workerGoTo);
+        bool isHasWorkers = await _mainWorkersBuilding.Move(Workers, _workerGoTo, buildProccess);
 
 
         if (!isHasWorkers)
         {
+            _currencyView.gameObject.SetActive(true);
             _messegeToUser.SendMessageToUser("Не хватает рабочих!", buildProccess.Icon);
             command.IsBuild = false;
             _inProccessing = false;
@@ -159,7 +160,7 @@ public class AbilityBuild : CmdExe<IBuildProccess>, IAmProccess, ICost
 
 
         _messegeToUser.SendMessageToUser($"{buildProccess.Name} закончено!", buildProccess.Icon);
-        await _mainWorkersBuilding.MoveBack(Workers);
+        await _mainWorkersBuilding.MoveBack(Workers, buildProccess);
         _profileBinding.BindAnimCurrencyView(true, false, false);
 
 

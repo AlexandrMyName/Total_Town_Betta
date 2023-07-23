@@ -8,11 +8,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/[Root]/Scenes/Menu.unity
     guid: 7ba3f254e71a7cf488d2bfb31f7aa7a6
-  - enabled: 1
-    path: Assets/[Root]/Scenes/DemoScene.unity
+  - enabled: 0
+    path: Assets/RootAssetsBundles/Scenes/DemoScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 0
     path: Assets/RootAssetsBundles/Scenes/GameScene.unity
     guid: 80f9c9d8e0207dd4ca24aa27d53bedae
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 383829df5cbcfd44da964693b10f2aac, type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: bd7d5a10c0674fc49aecb9ebbd1cd1a3, type: 2}

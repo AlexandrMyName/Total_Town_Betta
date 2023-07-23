@@ -13,7 +13,8 @@ public class AbilityDelete : CmdExe<IDelete>, IAmProccess, ICost
     [SerializeField] private List<GameObject> _objectsForActive;
     [SerializeField] private int _maxTimeToDeleteInSeconds;
 
-    [Space(10)]
+    [Space(10),Header("UI")]
+    
     [SerializeField] private Slider _sliderUnbuild;
     [SerializeField] private TMP_Text _timerTMP;
     [SerializeField] private MessegeView _messegeToUser;
@@ -42,10 +43,8 @@ public class AbilityDelete : CmdExe<IDelete>, IAmProccess, ICost
     private float _currentTime;
     private int _iterator;
     private bool _isWorkerGo;
-    private void Awake()
-    {
-        _thisSelectable = GetComponent<ISelectable>();
-    }
+    private void Awake() => _thisSelectable = GetComponent<ISelectable>();
+    
     private void Update()
     {
         
@@ -69,6 +68,7 @@ public class AbilityDelete : CmdExe<IDelete>, IAmProccess, ICost
     }
     protected override async void SpecificExecute(IDelete command) 
     {
+        if(_effects != null)
         _effects.DeactiveSelectedEffect();
 
         if(_waiterTime != null)  _currencyView.gameObject.SetActive(false);
@@ -77,6 +77,7 @@ public class AbilityDelete : CmdExe<IDelete>, IAmProccess, ICost
 
         if (_isWorkerGo)
         {
+            _currencyView.gameObject.SetActive(false);
             _messegeToUser.SendMessageToUser($"Доставка материалов", _thisSelectable.Icon);
         }
 
@@ -97,7 +98,7 @@ public class AbilityDelete : CmdExe<IDelete>, IAmProccess, ICost
         _isProccess = true;
         _isWorkerGo = true;
 
-        bool isHasWorkers = await _mainWorkersBuilding.Move(Workers, _workerGoTo);
+        bool isHasWorkers = await _mainWorkersBuilding.Move(Workers, _workerGoTo , _thisSelectable);
 
         if (!isHasWorkers)
         {
@@ -132,7 +133,7 @@ public class AbilityDelete : CmdExe<IDelete>, IAmProccess, ICost
         }
 
         this.gameObject.SetActive(false);
-        await _mainWorkersBuilding.MoveBack(Workers);
+        await _mainWorkersBuilding.MoveBack(Workers, _thisSelectable);
 
         if (_profileBinding != null)  _profileBinding.BindAnimCurrencyView(true,true);
 
