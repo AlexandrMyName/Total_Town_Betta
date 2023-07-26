@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LocalizationScreen : MonoBehaviour, IScreenInitializer
+public class LocalizationScreen : MonoBehaviour, IScreenInit
 {
     [SerializeField] private Button _onBack;
     [SerializeField] private MainMenuSettingsScreen _mainMenuSettingsScreen;
@@ -12,7 +12,7 @@ public class LocalizationScreen : MonoBehaviour, IScreenInitializer
         _onBack.onClick.RemoveAllListeners();
     }
 
-    public void Initialize(IScreenInitializer hidenObj)
+    public void Initialize(IScreenInit hidenObj)
     {
         hidenObj.Dispose();
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-public class ProfileBinding : MonoBehaviour,  IWorkWithProfile
+public class ProfileBinding : MonoBehaviour,  IProfileBinder
 {
     
     [SerializeField] private int _woodCount;
@@ -10,7 +10,7 @@ public class ProfileBinding : MonoBehaviour,  IWorkWithProfile
     [SerializeField] private int _diamondCount;
 
     [Inject] private IUserProfile _profile;
-    [SerializeField] private AnimCurrencyView _animCurrency;
+    [Inject] private AnimCurrencyView _animCurrency;
     public int Woods { get => _woodCount; set => _woodCount = value; }
     public int Diamonds { get => _diamondCount; set => _diamondCount = value; }
     public int Workers { get => _workerCount; set => _workerCount = value; }

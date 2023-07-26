@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface ISelectable : IDoHealth
+public interface ISelectable : IHealth
 {
     Sprite Icon { get; }
     string Name { get; }

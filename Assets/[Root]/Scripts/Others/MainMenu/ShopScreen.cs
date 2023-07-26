@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopScreen : MonoBehaviour, IScreenInitializer
+public class ShopScreen : MonoBehaviour, IScreenInit
 {
     [SerializeField] private Button _onBack;
     [SerializeField] private MainMenuScreen _mainMenuScreen;
@@ -12,7 +12,7 @@ public class ShopScreen : MonoBehaviour, IScreenInitializer
         _onBack.onClick.RemoveAllListeners();
     }
 
-    public void Initialize(IScreenInitializer hidenObj)
+    public void Initialize(IScreenInit hidenObj)
     {
         hidenObj.Dispose();
 

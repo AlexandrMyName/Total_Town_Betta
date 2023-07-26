@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MessegeView : MonoBehaviour, IAmProccess
+public class MessegeView : MonoBehaviour, IProccess
 {
     [SerializeField] private TMP_Text _messege;
     [SerializeField] private Image _icon;

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class DialogView : MonoBehaviour, IAmProccess
+public class DialogView : MonoBehaviour, IProccess
 {
     [Header("Input this, if wonna play on awake"),Space(2)]
     [SerializeField] private Animator _interactiveAnimator;

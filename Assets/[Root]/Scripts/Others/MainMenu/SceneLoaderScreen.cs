@@ -8,7 +8,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using TMPro;
 using System.Collections;
 
-public class SceneLoaderScreen : MonoBehaviour, IScreenInitializer
+public class SceneLoaderScreen : MonoBehaviour, IScreenInit
 {
     [SerializeField] private string assetSceneID_onNewGame;
     [SerializeField] private Button _onApply;
@@ -136,7 +136,7 @@ public class SceneLoaderScreen : MonoBehaviour, IScreenInitializer
         _onBack.gameObject.SetActive(false);
     }
 
-    public void Initialize(IScreenInitializer hidenObj)
+    public void Initialize(IScreenInit hidenObj)
     {
         
         hidenObj.Dispose();

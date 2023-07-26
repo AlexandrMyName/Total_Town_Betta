@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IBuilderConfig  :  ICost
+public interface IBuildingCnf  :  ICost
 {
     public string ResourceID { get; }
     public Sprite Icon { get; }

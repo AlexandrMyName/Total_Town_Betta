@@ -66,7 +66,7 @@ public class CommandsView : MonoBehaviour
 
         var view = _currencyView.GetComponent<CurrencyView>();
         view.currencyTypeText.text = executor is CmdExe<IDelete> ? "Разобрать" : "Построить";
-        IAmProccess proccess = (IAmProccess)executor;
+        IProccess proccess = (IProccess)executor;
         ICost costs = (ICost)executor;
         _currencyView.SetActive(proccess.IsProccess != true);
 

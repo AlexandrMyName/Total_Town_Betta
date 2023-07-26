@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainMenuSettingsScreen : MonoBehaviour , IScreenInitializer
+public class MainMenuSettingsScreen : MonoBehaviour , IScreenInit
 {
     [Header("Buttons")]
     [SerializeField] private Button _onAudio;
@@ -27,7 +27,7 @@ public class MainMenuSettingsScreen : MonoBehaviour , IScreenInitializer
         _onBack.onClick.RemoveAllListeners();
     }
     
-    public void Initialize(IScreenInitializer hidenObj) {
+    public void Initialize(IScreenInit hidenObj) {
 
 
         hidenObj.Dispose();

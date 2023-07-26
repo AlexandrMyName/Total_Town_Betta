@@ -9,7 +9,7 @@ public class AssetsInstaller : ScriptableObjectInstaller<AssetsInstaller>
     [SerializeField] private SelectableValue selectableValue;
     [SerializeField] private AttackableValue attackableValue;
  
-    [SerializeField] private ProduceBuildsConfigs _buildingConfigs;
+    [SerializeField] private CnfsProduceBuilding _buildingConfigs;
 
   
   

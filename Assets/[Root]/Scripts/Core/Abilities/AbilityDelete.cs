@@ -6,9 +6,9 @@ using UnityEngine.UI;
 using Zenject;
 
 [RequireComponent(typeof(ProfileBinding))]
-public class AbilityDelete : CmdExe<IDelete>, IAmProccess, ICost
+public class AbilityDelete :  CmdExe<IDelete>, IProccess, ICost
 {
-    [SerializeField] private EffectsView _effects;
+    [SerializeField] private EffectsView _effectsInternal;
     [SerializeField] private List<GameObject> _stackObjectsForInterection;
     [SerializeField] private List<GameObject> _objectsForActive;
     [SerializeField] private int _maxTimeToDeleteInSeconds;
@@ -17,9 +17,8 @@ public class AbilityDelete : CmdExe<IDelete>, IAmProccess, ICost
     
     [SerializeField] private Slider _sliderUnbuild;
     [SerializeField] private TMP_Text _timerTMP;
-    [SerializeField] private MessegeView _messegeToUser;
-    [SerializeField] private CurrencyView _currencyView;
-    [SerializeField] private ProfileBinding _profileBinding;
+   
+    private ProfileBinding _profileBinding;
 
     [Space(10), Header("Workers unit (склад)")]
     [SerializeField] private WorkersBuild _mainWorkersBuilding;
@@ -28,11 +27,19 @@ public class AbilityDelete : CmdExe<IDelete>, IAmProccess, ICost
 
     [Inject] private SelectableValue selectableValue;
     [Inject] private IUserProfile _profile;
-    
+
+    [Inject] private MessegeView _messegeToUser;
+    [Inject] private CurrencyView _currencyView;
+
+
 
     private AsyncAwaiterTime _waiterTime;
     private ISelectable _thisSelectable;
     private bool _isProccess;
+
+    
+
+
 
     public bool IsProccess => _isProccess;
     public int Woods { get => _profileBinding.Woods; set => _profileBinding.Woods = value; }
@@ -43,12 +50,16 @@ public class AbilityDelete : CmdExe<IDelete>, IAmProccess, ICost
     private float _currentTime;
     private int _iterator;
     private bool _isWorkerGo;
-    private void Awake() => _thisSelectable = GetComponent<ISelectable>();
+    private void Awake()
+    {
+        _profileBinding ??= GetComponent<ProfileBinding>();
+        _thisSelectable = GetComponent<ISelectable>();
+    }
     
     private void Update()
     {
-        Debug.Log(selectableValue == null );
-        
+        Debug.Log($"{selectableValue != null}   SELECTABLE != null");
+
         if(_waiterTime != null && _isProccess) 
         {
             _currentTime += Time.deltaTime;
@@ -64,13 +75,13 @@ public class AbilityDelete : CmdExe<IDelete>, IAmProccess, ICost
                 $"{timeSpaneMax.Seconds:D2}/ ";
 
             if (selectableValue.Value != _thisSelectable) return;
-            _sliderUnbuild.value = _maxTimeToDeleteInSeconds-_currentTime;
+            _sliderUnbuild.value = _maxTimeToDeleteInSeconds - _currentTime;
         }
     }
     protected override async void SpecificExecute(IDelete command) 
     {
-        if(_effects != null)
-        _effects.DeactiveSelectedEffect();
+        if(_effectsInternal != null)
+            _effectsInternal.DeactiveSelectedEffect();
 
         if(_waiterTime != null)  _currencyView.gameObject.SetActive(false);
 
@@ -109,9 +120,6 @@ public class AbilityDelete : CmdExe<IDelete>, IAmProccess, ICost
             _isWorkerGo = false;
             return;
         }
-
-
-
 
         _currencyView.gameObject.SetActive(false);
         _thisSelectable = gameObject.GetComponent<ISelectable>();

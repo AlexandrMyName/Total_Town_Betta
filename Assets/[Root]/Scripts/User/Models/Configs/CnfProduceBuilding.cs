@@ -1,8 +1,8 @@
  
 using UnityEngine;
 
-[CreateAssetMenu(fileName = nameof(ProduceBuilderConfig), menuName = "Configs/" + nameof(ProduceBuilderConfig), order = 1)]
-public class ProduceBuilderConfig : ScriptableObject, IBuilderConfig
+[CreateAssetMenu(fileName = nameof(CnfProduceBuilding), menuName = "Configs/" + nameof(CnfProduceBuilding), order = 1)]
+public class CnfProduceBuilding : ScriptableObject, IBuildingCnf
 {
     [field: SerializeField] public string Name { get; set; }
     [field: SerializeField] public string ResourceID { get; private set; }

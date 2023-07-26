@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StartMenuScreen : MonoBehaviour , IScreenInitializer
+public class StartMenuScreen : MonoBehaviour , IScreenInit
 {
     [Header("Buttons")]
     [SerializeField] private Button _onNewGame;
@@ -15,7 +15,7 @@ public class StartMenuScreen : MonoBehaviour , IScreenInitializer
     [SerializeField] private MainMenuScreen _menuScreen;
     [SerializeField] private GameObject _inputScreen;
 
-    private IScreenInitializer _cachedScreen;
+    private IScreenInit _cachedScreen;
 
     public void Dispose()
     {
@@ -26,7 +26,7 @@ public class StartMenuScreen : MonoBehaviour , IScreenInitializer
         _onBack.onClick.RemoveAllListeners();
     }
     
-    public void Initialize(IScreenInitializer hidenObj) {
+    public void Initialize(IScreenInit hidenObj) {
 
         _cachedScreen = hidenObj;
         _cachedScreen.Dispose();

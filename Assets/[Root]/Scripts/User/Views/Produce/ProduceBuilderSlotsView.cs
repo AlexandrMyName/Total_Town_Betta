@@ -12,10 +12,10 @@ public class ProduceBuilderSlotsView : MonoBehaviour
     public TMP_Text CurrencyCostDiamonds;
     public TMP_Text CurrencyCostMoney;
 
-    public IBuilderConfig Config;
+    public IBuildingCnf Config;
 
 
-    public void Init(IBuilderConfig config)
+    public void Init(IBuildingCnf config)
     {
         Icon.sprite = config.Icon;
         CurrencyCostDiamonds.text = $" {config.Diamonds}";

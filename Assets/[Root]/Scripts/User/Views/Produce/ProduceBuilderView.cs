@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProduceBuilderView : MonoBehaviour, IAmProccess
+public class ProduceBuilderView : MonoBehaviour, IProccess
 {
     [SerializeField] List<ProduceBuilderSlotsView> _slotsBuilding = new();
     [SerializeField] GameObject _slotPrefab;
@@ -18,7 +18,7 @@ public class ProduceBuilderView : MonoBehaviour, IAmProccess
          onCansel?.Invoke();
         _isProccess = false;
     }
-    public void InitView(Action <ProduceBuilderSlotsView> slot , List<IBuilderConfig> configs)
+    public void InitView(Action <ProduceBuilderSlotsView> slot , List<IBuildingCnf> configs)
     {
 
         foreach (var config in configs)

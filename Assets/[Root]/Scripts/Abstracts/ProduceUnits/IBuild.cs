@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface ICanBuild
+public interface IBuild
 {
      Vector3 Position { get; }
 

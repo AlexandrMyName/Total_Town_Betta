@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Worker : MonoBehaviour, IAmProccess
+public class Worker : MonoBehaviour, IProccess
 {
    
     public bool IsProccess { get; set; }

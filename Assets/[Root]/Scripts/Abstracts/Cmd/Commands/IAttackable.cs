@@ -1,2 +1,2 @@
 
-public interface IAttackable : IDoHealth { }
+public interface IAttackable : IHealth { }

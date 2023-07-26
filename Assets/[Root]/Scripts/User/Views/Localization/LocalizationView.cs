@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
-public class LocalizationView : MonoBehaviour, IScreenInitializer
+public class LocalizationView : MonoBehaviour, IScreenInit
 {
    
     [SerializeField] private Button _en;
@@ -77,7 +77,7 @@ public class LocalizationView : MonoBehaviour, IScreenInitializer
         this.gameObject.SetActive(false);
     }
 
-    public void Initialize(IScreenInitializer hidenObj)
+    public void Initialize(IScreenInit hidenObj)
     {
         hidenObj.Dispose();
 

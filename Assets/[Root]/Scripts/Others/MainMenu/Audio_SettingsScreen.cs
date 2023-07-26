@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
 
-public class Audio_SettingsScreen : MonoBehaviour , IScreenInitializer
+public class Audio_SettingsScreen : MonoBehaviour , IScreenInit
 {
     [Header("Buttons / UI")]
     
@@ -26,7 +26,7 @@ public class Audio_SettingsScreen : MonoBehaviour , IScreenInitializer
         _onBack.onClick.RemoveAllListeners();
     }
     
-    public void Initialize(IScreenInitializer hidenObj) {
+    public void Initialize(IScreenInit hidenObj) {
 
 
         hidenObj.Dispose();

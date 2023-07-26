@@ -1,6 +1,6 @@
  
 
-public interface IAmProccess  
+public interface IProccess  
 {
   bool IsProccess { get; }
 }

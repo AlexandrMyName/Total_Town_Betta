@@ -21,22 +21,22 @@ public class ProduceBuildsPresenter : MonoBehaviour
         _camera = Camera.main;
     }
     [Inject]
-    public void BindView(ProduceBuildsConfigs buildingConfigs)
+    public void BindView(CnfsProduceBuilding buildingConfigs)
     {
         Debug.Log("Успешно!");
-        List<IBuilderConfig> abstractsBuildersConfig = ConvertToAbstract(buildingConfigs);
+        List<IBuildingCnf> abstractsBuildersConfig = ConvertToAbstract(buildingConfigs);
 
         Debug.Log(abstractsBuildersConfig.Count);
         _view.InitView(ProduceBuilding, abstractsBuildersConfig);
     }
 
-    private List<IBuilderConfig> ConvertToAbstract(ProduceBuildsConfigs buildingConfigs)
+    private List<IBuildingCnf> ConvertToAbstract(CnfsProduceBuilding buildingConfigs)
     {
-        List<IBuilderConfig> abstractsBuildersConfig = new List<IBuilderConfig>();
+        List<IBuildingCnf> abstractsBuildersConfig = new List<IBuildingCnf>();
 
         foreach (var config in buildingConfigs._configs)
         {
-            abstractsBuildersConfig.Add(config as IBuilderConfig);
+            abstractsBuildersConfig.Add(config as IBuildingCnf);
         }
 
         return abstractsBuildersConfig;

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using Zenject;
 
 [RequireComponent(typeof(BuildProccesses),typeof(ProfileBinding))]
-public class AbilityBuild : CmdExe<IBuildProccess>, IAmProccess, ICost
+public class AbilityBuild : CmdExe<IBuildProccess>, IProccess, ICost
 {
     [SerializeField] private EffectsView _effects;
     [SerializeField] private List<GameObject> _buildsInterectiveObjects;
@@ -17,22 +17,20 @@ public class AbilityBuild : CmdExe<IBuildProccess>, IAmProccess, ICost
     [SerializeField] private GameObject _gameobjectOnCompleted;
     [SerializeField] private TMP_Text _textTimeFoUser;
     
-
-    [Space(10),Header("Interectiv with User")]
-    [SerializeField] private GameObject _currencyForUser; //Find [REFACTORING] LeftUI 
-    [SerializeField] private DialogView _dialogView;//Find [REFACTORING] LeftUI 
-    [SerializeField] private MessegeView _messegeToUser;//Find [REFACTORING] LeftUI 
-    [SerializeField] private ProfileBinding _profileBinding;
+ 
+    
+   
+    private ProfileBinding _profileBinding;
 
     [Space(10), Header("If you wonna this, this is Effects timeline")]
     [SerializeField] private List<string> _dialogs;
-    [SerializeField] private ClipEffector _clipEffector;
+    
     [SerializeField] private ClipType _clipType;
     [SerializeField] private Transform _moveAfterDialog;
-    [SerializeField] private GameObject _hidenGameEnd;//Find [REFACTORING] LeftUI 
+    
 
     [Space(10)]
-    [SerializeField] private CurrencyView _currencyView;//Find [REFACTORING] LeftUI 
+    
     [Space(10), Header("Workers unit (склад)")]
     [SerializeField] private WorkersBuild _mainWorkersBuilding;//Find [REFACTORING] BUILD IN SPACE
     [SerializeField] private Transform _workerGoTo;
@@ -41,9 +39,13 @@ public class AbilityBuild : CmdExe<IBuildProccess>, IAmProccess, ICost
     private int _iterator;
     private AsyncAwaiterTime _waiter;
 
-    
+    [Inject] private DialogView _dialogView;
+    [Inject] private MessegeView _messegeToUser;
+    [Inject] private ClipEffector _clipEffector;
+    [Inject] private CurrencyView _currencyView;
     [Inject] private SelectableValue selectValue;//Zenject not avaliable [REFACTORING]
     [Inject] private IUserProfile _profile;//Zenject not avaliable [REFACTORING]
+    [Inject(Id = "HidenEndObject")] private GameObject _hidenGameEnd;
 
     private ISelectable buildProccess;
 
@@ -142,7 +144,7 @@ public class AbilityBuild : CmdExe<IBuildProccess>, IAmProccess, ICost
             return;
         }
         _profileBinding.BindAnimCurrencyView(false, true);
-        _currencyForUser.SetActive(false); //Find [REFACTORING]
+        _currencyView.gameObject.SetActive(false); //Find [REFACTORING]
         _textTimeFoUser.gameObject.SetActive(true);
         int countObject = _buildsInterectiveObjects.Count;
         float onOneObjectTime = _maxTimeToBuild / countObject;

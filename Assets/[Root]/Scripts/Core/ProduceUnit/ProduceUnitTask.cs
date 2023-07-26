@@ -1,6 +1,7 @@
 using TMPro;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 public class ProduceUnitTask : MonoBehaviour, IUnitProduceTask
 {
@@ -8,10 +9,9 @@ public class ProduceUnitTask : MonoBehaviour, IUnitProduceTask
     private ReactiveCollection<IUnitProducer> _unitProducers = new();
 
     [SerializeField] private int _maxUnitsWorkers;
-    [SerializeField] private ProduceUnitsPresenter _presenter;// Find ?
-
-    [SerializeField] private UserProfile _userProfile;
-    [SerializeField] private SelectableValue _selectableValue;
+    [Inject] private ProduceUnitsPresenter _presenter;// Find ?
+    [Inject] private IUserProfile _userProfile;
+    [Inject] private SelectableValue _selectableValue;
 
    
     private ISelectable _thisSelectable;

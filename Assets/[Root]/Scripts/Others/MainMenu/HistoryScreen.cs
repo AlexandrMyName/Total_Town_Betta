@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class HistoryScreen : MonoBehaviour , IScreenInitializer
+public class HistoryScreen : MonoBehaviour , IScreenInit
 {
     [Header("Buttons/Inputs")]
     [SerializeField] private TMP_InputField _nameField;
@@ -14,7 +14,7 @@ public class HistoryScreen : MonoBehaviour , IScreenInitializer
     [SerializeField] private SceneLoaderScreen _sceneLoader;
     [SerializeField] private GameObject _inputScreen;
 
-    private IScreenInitializer _cachedScreen;
+    private IScreenInit _cachedScreen;
 
     public void Dispose()
     {
@@ -24,7 +24,7 @@ public class HistoryScreen : MonoBehaviour , IScreenInitializer
         _onBack.onClick.RemoveAllListeners();
     }
     
-    public void Initialize(IScreenInitializer hidenObj) {
+    public void Initialize(IScreenInit hidenObj) {
 
         _cachedScreen = hidenObj;
         _cachedScreen.Dispose();
