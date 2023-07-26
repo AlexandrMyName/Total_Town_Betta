@@ -1,15 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using Zenject;
 
 public class AbilityProduceUnit : CmdExe<IProduceUnit>
 {
-    [SerializeField] private ProduceUnitsPresenter _produceUnitPresenter;
+    private ProduceUnitsPresenter _produceUnitPresenter;
 
-
-    private void Awake()
+    [Inject]
+    private void Constract(ProduceUnitsPresenter produceUnitPresenter)
     {
-        _produceUnitPresenter ??= GameObject.FindGameObjectWithTag("ProduceView").GetComponent<ProduceUnitsPresenter>();
+        _produceUnitPresenter = produceUnitPresenter;
     }
     protected override void SpecificExecute(IProduceUnit command)
     {

@@ -11,16 +11,15 @@ public class InterectionValues : MonoBehaviour
     [Inject] private AttackableValue _attackableValue;
     #endregion
 
-    [SerializeField] private Camera _camera;
-    [SerializeField] private EventSystem eventSystem;
+    private Camera _camera;
+    private EventSystem _eventSystem;
     private Plane _plane;
-    private void OnValidate()
-    {
-        _camera ??= Camera.main;
-        eventSystem ??= GameObject.Find("EventSystem").GetComponent<EventSystem>();
-    }
-    private void Awake() { 
-        _camera ??= Camera.main;
+
+
+    [Inject]
+    private void Constract(Camera camera, EventSystem eventSystem) { 
+        _camera = camera;
+        _eventSystem = eventSystem;
         _plane = new Plane(transform.up, 0);
     }
     
@@ -33,7 +32,7 @@ public class InterectionValues : MonoBehaviour
         Ray ray;
         
 #if UNITY_EDITOR
-        isPointerOverGM = eventSystem.IsPointerOverGameObject();
+        isPointerOverGM = _eventSystem.IsPointerOverGameObject();
         ray = _camera.ScreenPointToRay(Input.mousePosition);
 
 #else

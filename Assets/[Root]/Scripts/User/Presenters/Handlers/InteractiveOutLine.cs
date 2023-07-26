@@ -1,12 +1,15 @@
 using UnityEngine;
+using Zenject;
 
 public class InteractiveOutLine : MonoBehaviour
 {
-    [SerializeField] private SelectableValue _selectableValue;
+    private SelectableValue _selectableValue;
     private ISelectable cahedSellectable;
 
-    private void Awake()
+    [Inject]
+    private void Constract(SelectableValue selectableValue)
     {
+        _selectableValue = selectableValue;
         _selectableValue.OnValueChanged += onSelected;
         onSelected(null);
     }

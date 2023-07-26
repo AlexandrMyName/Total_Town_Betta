@@ -1,12 +1,15 @@
 using UnityEngine;
+using Zenject;
 
 public class LoaderScenceOnMemory : MonoBehaviour
 {
-    [SerializeField] private InterectiveText interectiveText;
+    [Inject] private InterectiveText _interectiveText;
 
 
-    private void Start()
+    [Inject]
+    private void Constract(InterectiveText interectiveText)
     {
+        _interectiveText = interectiveText;
         if(interectiveText != null)
         {
             interectiveText.LoadSceneAsync(this);

@@ -1,8 +1,9 @@
 using UnityEngine;
+using Zenject;
 
 public class InterectionScroll : MonoBehaviour
 {
-    [SerializeField] private Camera _camera;
+    
     [field: SerializeField] private bool UseRotation { get; set; }
     [SerializeField] private float sensetivity = 0.5f;
     [Space, Header("Clamp camera values")]
@@ -15,16 +16,22 @@ public class InterectionScroll : MonoBehaviour
 
     private Plane _plane;
 
+    private Camera _camera;
+    
 
-    private void OnValidate() => _camera ??= Camera.main;
-
-    private void Awake()
+    [Inject]
+    private void Constract(Camera camera)
     {
+        _camera = camera;
 #if !UNITY_ANDROID
 
 sensetivity = 100f;
 #endif
     }
+
+
+
+
     private void Update()
     {
 #if UNITY_ANDROID
