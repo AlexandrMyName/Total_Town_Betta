@@ -17,3 +17,9 @@ MonoBehaviour:
   selectableValue: {fileID: 11400000, guid: 3a612be6f51e0374b90e14c70d2a9e99, type: 2}
   attackableValue: {fileID: 11400000, guid: 382421c6fd863c04aa6b54a84c2b75cc, type: 2}
   userDataProfile: {fileID: 11400000, guid: 43b484c23627c754ebf02b0130b98cdc, type: 2}
+  _buildingConfigs: {fileID: 11400000, guid: 12adee609a2e9a04998b26635b591ee6, type: 2}
+  _isUserProfileSafe: 0
+  _Workers: 5
+  _Woods: 79
+  _Diamonds: 10
+  _Irons: 200

@@ -7,7 +7,7 @@ using UnityEngine.AI;
 public class WorkersBuild : MonoBehaviour
 {
     [Space(10), Header("Workers unit (склад)")]
-    [SerializeField] private List<UnitMovementStop> _movementStopWorkers; //Global
+    [SerializeField] public List<UnitMovementStop> _movementStopWorkers; //Global
     [SerializeField] private Transform _cachedPosition;
     [SerializeField] private TMP_Text textCountWorkers;
 
@@ -16,8 +16,13 @@ public class WorkersBuild : MonoBehaviour
     private List<Worker> _workersGoBack = new List<Worker>(); //InWorkersGoBack
     private List<Worker> _cachedWorkersBackEnd = new List<Worker>();//InWorkerEnd
 
-    private void Awake() => RefreshUI();
+    [field: SerializeField] public Transform ContainerForWorkers { get; private set; }
 
+    public void AddWorker(UnitMovementStop newWorker)
+    {
+        _movementStopWorkers.Add(newWorker);
+        RefreshUI();
+    }
     public async Task<bool> Move(int count, Transform workerGoTo, ISelectable selectableCall)
     {
         if (_movementStopWorkers == null) return false;
@@ -90,7 +95,7 @@ public class WorkersBuild : MonoBehaviour
         RefreshUI();
         return true;
     }
-    private void RefreshUI() => textCountWorkers.text = $"{_movementStopWorkers.Count - _workersInProcess}/{_movementStopWorkers.Count}";
+    public void RefreshUI() => textCountWorkers.text = $"{_movementStopWorkers.Count - _workersInProcess}/{_movementStopWorkers.Count}";
     private UnitMovementStop GoBack(ISelectable selectableCall, int count)
     {
         UnitMovementStop WorkerGo = null;
@@ -136,4 +141,5 @@ public class WorkersBuild : MonoBehaviour
             worker.Binded_selectable = null;
         }
     }
+    private void Awake() => RefreshUI();
 }

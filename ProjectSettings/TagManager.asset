@@ -8,6 +8,8 @@ TagManager:
   - lb_groundTarget
   - lb_perchTarget
   - DontDestroyOnLoad
+  - ProduceView
+  - Localizator
   layers:
   - Default
   - TransparentFX

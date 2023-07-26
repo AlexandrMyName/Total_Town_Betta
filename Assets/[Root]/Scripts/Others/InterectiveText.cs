@@ -5,6 +5,11 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.UI;
+using System.Threading.Tasks;
+using UniRx;
+using UnityEditor.Rendering;
+using System;
+using System.Collections;
 
 /// <summary>
 /// Интерактивная загрузка уровня с перечисляющим текстом
@@ -31,16 +36,41 @@ public class InterectiveText : MonoBehaviour
     [SerializeField] private GameObject _loadGameObjectRotate;
     [SerializeField] private TMP_Text _loadPerccent;
 
-    AsyncOperation asyncOperation;
-    AsyncOperationHandle<SceneInstance> handler;
+    private AsyncOperation asyncOperation;
+    private AsyncOperationHandle<SceneInstance> handler;
 
-    public void LoadSceneAsync()
+    public void LoadSceneAsync(MonoBehaviour activeMono)
     {
-        
-         handler = Addressables.LoadSceneAsync(_loadingSceneAssetID, LoadSceneMode.Single,false);
-         
+      activeMono.StartCoroutine(LoadScene());
        
     }
+
+   
+    private IEnumerator LoadScene()
+    {
+       handler = Addressables.LoadSceneAsync(_loadingSceneAssetID, LoadSceneMode.Single, false);
+
+        while (!handler.IsDone)
+        {
+             
+            ShowPercent();
+            yield return null;
+        }
+        ShowPercent(true);
+    }
+
+    private void ShowPercent(bool iscomlete = false)
+    {
+        if (iscomlete) {
+            _loadPerccent.text = $" 100 / 100";
+            return;
+        }
+            DownloadStatus status = handler.GetDownloadStatus();
+        float percent = status.Percent * 100;
+        _loadPerccent.text = $"{Mathf.RoundToInt(percent)} / 100";
+        
+    }
+
     public async void PlayEnd()
     {
        
@@ -86,9 +116,24 @@ public class InterectiveText : MonoBehaviour
         }
         _loadGameObjectRotate.SetActive(false);
         _loadPerccent.text = "Пожалуйста подождите! Настройка контента..";
-        handler.Result.ActivateAsync();
+
+        if(handler.IsDone)
+           handler.Result.ActivateAsync();
+        else
+        {
+            await StartCoroutine(WaitSceneLoading());
+        }
     }
    
+    private IEnumerator WaitSceneLoading()
+    {
+        while (!handler.IsDone)
+        {
+            ShowPercent();
+             yield return null;  
+        }
+        handler.Result.ActivateAsync();
+    }
     private void Update()
     {
        

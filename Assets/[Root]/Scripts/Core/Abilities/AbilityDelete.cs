@@ -47,6 +47,7 @@ public class AbilityDelete : CmdExe<IDelete>, IAmProccess, ICost
     
     private void Update()
     {
+        Debug.Log(selectableValue == null );
         
         if(_waiterTime != null && _isProccess) 
         {

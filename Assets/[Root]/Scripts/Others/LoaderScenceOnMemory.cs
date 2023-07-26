@@ -9,7 +9,7 @@ public class LoaderScenceOnMemory : MonoBehaviour
     {
         if(interectiveText != null)
         {
-            interectiveText.LoadSceneAsync();
+            interectiveText.LoadSceneAsync(this);
         }
     }
 }

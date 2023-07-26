@@ -12,7 +12,7 @@ public class MainMenuScreen : MonoBehaviour , IScreenInitializer
     [Space(10), Header("Screens")]
     [SerializeField] private StartMenuScreen _startScreen;
     [SerializeField] private MainMenuSettingsScreen _settingsScreen;
-    [SerializeField] private GameObject _shopScreen;
+    [SerializeField] private ShopScreen _shopScreen;
     [SerializeField] private AutorsMenuScreen _autorsScreen;
     public void Dispose()
     {
@@ -30,7 +30,7 @@ public class MainMenuScreen : MonoBehaviour , IScreenInitializer
 
         this.gameObject.SetActive(true);
         _onSettings.onClick.AddListener(() => _settingsScreen.Initialize(this));
-        _onShop.onClick.AddListener(() => { });
+        _onShop.onClick.AddListener(() => _shopScreen.Initialize(this));
         _onStart.onClick.AddListener(() => _startScreen.Initialize(this));
         _onAutors.onClick.AddListener(() => _autorsScreen.Initialize(this));
     }

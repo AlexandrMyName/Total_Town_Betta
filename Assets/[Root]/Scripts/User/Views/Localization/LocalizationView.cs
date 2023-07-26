@@ -33,7 +33,7 @@ public class LocalizationView : MonoBehaviour, IScreenInitializer
     {
         _af.onClick.AddListener(() => ChangeLocale(0));
 
-        _ar.onClick.AddListener (() => ChangeLocale(1));
+       // _ar.onClick.AddListener (() => ChangeLocale(1));
 
       
 
@@ -57,7 +57,7 @@ public class LocalizationView : MonoBehaviour, IScreenInitializer
 
         _ja.onClick.AddListener(() => ChangeLocale(11));
 
-        _ko.onClick.AddListener(() => ChangeLocale(12));
+       // _ko.onClick.AddListener(() => ChangeLocale(12));
 
         _pl.onClick.AddListener(() => ChangeLocale(13));
 
@@ -114,4 +114,6 @@ public class LocalizationView : MonoBehaviour, IScreenInitializer
 public static class LocalizationTableNames
 {
     public static string MenuNameTable = "MenuTable";
+
+    public static string GameTable = "GameTable";
 }

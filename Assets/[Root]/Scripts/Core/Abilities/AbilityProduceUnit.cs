@@ -1,14 +1,18 @@
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class AbilityProduceUnit : CmdExe<IProduceUnit>
 {
+    [SerializeField] private ProduceUnitsPresenter _produceUnitPresenter;
 
-    [SerializeField] private Transform _containerForUnits;
+
+    private void Awake()
+    {
+        _produceUnitPresenter ??= GameObject.FindGameObjectWithTag("ProduceView").GetComponent<ProduceUnitsPresenter>();
+    }
     protected override void SpecificExecute(IProduceUnit command)
     {
-        Instantiate(command.Object, 
-            new Vector3(Random.Range(-3, 3), transform.position.y + 1, Random.Range(-3, 3)),
-            Quaternion.identity,
-            _containerForUnits);
+        _produceUnitPresenter.Show();
     }
 }
