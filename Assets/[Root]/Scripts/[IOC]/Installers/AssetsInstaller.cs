@@ -8,7 +8,7 @@ public class AssetsInstaller : ScriptableObjectInstaller<AssetsInstaller>
     [SerializeField] private Vector3Value groundClickRMB;
     [SerializeField] private SelectableValue selectableValue;
     [SerializeField] private AttackableValue attackableValue;
- 
+    [SerializeField] private DialogObjectValue dialogObjectValue;
     [SerializeField] private CnfsProduceBuilding _buildingConfigs;
 
   
@@ -17,7 +17,7 @@ public class AssetsInstaller : ScriptableObjectInstaller<AssetsInstaller>
     {
         Container.BindInstance(_buildingConfigs);
         
-        Container.BindInstances(assetContext,groundClickRMB,selectableValue,attackableValue);
+        Container.BindInstances(assetContext,groundClickRMB,selectableValue,attackableValue, dialogObjectValue);
         Container.Bind<IAwatable<IAttackable>>().FromInstance(attackableValue);
         Container.Bind<IAwatable<Vector3>>().FromInstance(groundClickRMB);
         

@@ -28,7 +28,7 @@ public class InteractiveOutLine : MonoBehaviour
         outLine.enabled = true;
     
     }
-
+    
     private void OnDestroy()
     {
         _selectableValue.OnValueChanged -= onSelected;

@@ -6,146 +6,119 @@ using UnityEngine.UI;
 using Zenject;
 
 [RequireComponent(typeof(ProfileBinding))]
-public class AbilityDelete :  CmdExe<IDelete>, IProccess, ICost
+public class AbilityDelete :  QueueAssemblingExe<IDelete>, IProccess, ICost
 {
-    [SerializeField] private EffectsView _effectsInternal;
-    [SerializeField] private List<GameObject> _stackObjectsForInterection;
     [SerializeField] private List<GameObject> _objectsForActive;
-    [SerializeField] private int _maxTimeToDeleteInSeconds;
-
-    [Space(10),Header("UI")]
-    
-    [SerializeField] private Slider _sliderUnbuild;
-    [SerializeField] private TMP_Text _timerTMP;
-   
-    private ProfileBinding _profileBinding;
 
     [Space(10), Header("Workers unit (склад)")]
     [SerializeField] private WorkersBuild _mainWorkersBuilding;
     [SerializeField] private Transform _workerGoTo;
-    private void OnValidate() => _profileBinding ??= GetComponent<ProfileBinding>();
+   
 
-    [Inject] private SelectableValue selectableValue;
-    [Inject] private IUserProfile _profile;
-
+    [Inject] private SelectableValue _selectableValue;
     [Inject] private MessegeView _messegeToUser;
     [Inject] private CurrencyView _currencyView;
 
-
-
-    private AsyncAwaiterTime _waiterTime;
-    private ISelectable _thisSelectable;
-    private bool _isProccess;
-
-    
-
-
-
-    public bool IsProccess => _isProccess;
-    public int Woods { get => _profileBinding.Woods; set => _profileBinding.Woods = value; }
-    public int Diamonds { get => _profileBinding.Diamonds; set => _profileBinding.Diamonds = value; }
-    public int Workers { get => _profileBinding.Workers; set => _profileBinding.Workers = value; }
-    public int Irons { get => _profileBinding.Irons; set => Irons = value; }
-
-    private float _currentTime;
     private int _iterator;
     private bool _isWorkerGo;
-    private void Awake()
+
+    [Inject]
+    private void Construct(MessegeView messegeToUser, CurrencyView currencyView, SelectableValue selectValue)
     {
-        _profileBinding ??= GetComponent<ProfileBinding>();
-        _thisSelectable = GetComponent<ISelectable>();
+        _messegeToUser = messegeToUser;
+        _currencyView = currencyView;
+        _selectableValue = selectValue;
+        Init(GetComponent<ProfileBinding>(), gameObject.GetComponent<ISelectable>(), _messegeToUser, gameObject.GetComponent<Collider>());
     }
-    
-    private void Update()
+
+    protected override void RefreshTime()
     {
-        Debug.Log($"{selectableValue != null}   SELECTABLE != null");
-
-        if(_waiterTime != null && _isProccess) 
+        if (Waiter != null && IsProccess)
         {
-            _currentTime += Time.deltaTime;
-            _waiterTime.SetValue(_currentTime);
-
-            TimeSpan timeSpaneMax = TimeSpan.FromSeconds(_maxTimeToDeleteInSeconds);
-            TimeSpan timeSpaneCurrent = TimeSpan.FromSeconds(_currentTime);
-
-            _timerTMP.text =
-                $"{timeSpaneCurrent.Minutes:D2}:" +
-                $"{timeSpaneCurrent.Seconds:D2}/ " +
-                $"{timeSpaneMax.Minutes:D2}:" +
-                $"{timeSpaneMax.Seconds:D2}/ ";
-
-            if (selectableValue.Value != _thisSelectable) return;
-            _sliderUnbuild.value = _maxTimeToDeleteInSeconds - _currentTime;
+            CurrentTime += Time.deltaTime;
+            Waiter.SetValue(CurrentTime);
+            UpdateProccess(_maxTimeToDo - CurrentTime);
         }
     }
-    protected override async void SpecificExecute(IDelete command) 
+   
+    protected override async void OnCommandExecute(IDelete command)
     {
-        if(_effectsInternal != null)
-            _effectsInternal.DeactiveSelectedEffect();
+        if (HasCost() == false) return;
 
-        if(_waiterTime != null)  _currencyView.gameObject.SetActive(false);
-
-         
-
-        if (_isWorkerGo)
-        {
-            _currencyView.gameObject.SetActive(false);
-            _messegeToUser.SendMessageToUser($"Доставка материалов", _thisSelectable.Icon);
-        }
-
-        if (_isProccess) return;
-
-
-        if ( _profile.GetCurency(CurrencyType.Worker).Count < Workers)
-        {
-            int noneWorker = Mathf.Abs(_profile.GetCurency(CurrencyType.Worker).Count - Workers);
-            noneWorker =Mathf.Min(0, noneWorker);
-            _messegeToUser.SendMessageToUser($"Не хватает рабочих ( {_profile.GetCurency(CurrencyType.Worker).Count - noneWorker})", 
-                _thisSelectable.Icon);
-            return;
-        }
-
-        foreach(GameObject obj in _objectsForActive) obj.SetActive(true);
-         
-        _isProccess = true;
+        IsProccess = true;
         _isWorkerGo = true;
 
-        bool isHasWorkers = await _mainWorkersBuilding.Move(Workers, _workerGoTo , _thisSelectable);
+        BindMessege($"Рабочие отправлены на снос:  ({_currentSelectable.Name})");
+
+        bool isHasWorkers = await _mainWorkersBuilding.Move(Workers, _workerGoTo, _currentSelectable);
 
         if (!isHasWorkers)
         {
-            _messegeToUser.SendMessageToUser("Не хватает рабочих!", _thisSelectable.Icon);
-            
-            _isProccess = false;
-            _isWorkerGo = false;
+            CanselCommandProccess(command);
             return;
         }
+        BindMessege($"Рабочие приступили  ({_currentSelectable.Name})");
+        foreach (GameObject obj in _objectsForActive) obj.SetActive(true);
+        _proccessSlider.gameObject.SetActive(true);
+        _selectableValue.SetValue(null);
+        _collider.enabled = false;
+
 
         _currencyView.gameObject.SetActive(false);
-        _thisSelectable = gameObject.GetComponent<ISelectable>();
-         _sliderUnbuild.maxValue = _maxTimeToDeleteInSeconds;
-        _timerTMP.gameObject.SetActive(true);
-        float secondsOnOne = _maxTimeToDeleteInSeconds/_stackObjectsForInterection.Count;
+        _currentSelectable = gameObject.GetComponent<ISelectable>();
+        _proccessSlider.maxValue = _maxTimeToDo;
 
-        TimeSpan timeSpaneMax = TimeSpan.FromSeconds(_maxTimeToDeleteInSeconds);
-        _waiterTime = new AsyncAwaiterTime(secondsOnOne);
+        float secondsOnOne = _maxTimeToDo / _interectiveObjects.Count;
 
 
-        if (_profileBinding != null)  _profileBinding.BindAnimCurrencyView(false); 
+        Waiter = new AsyncAwaiterTime(secondsOnOne);
 
-        while (_iterator < _stackObjectsForInterection.Count)
+
+        if (_profileBinding != null) _profileBinding.BindAnimCurrencyView(false);
+
+        while (_iterator < _interectiveObjects.Count)
         {
-            _stackObjectsForInterection[_iterator].SetActive(false);
-            await _waiterTime;
-            _waiterTime = new AsyncAwaiterTime(_currentTime + secondsOnOne);
+            _interectiveObjects[_iterator].SetActive(false);
+            await Waiter;
+            Waiter = new AsyncAwaiterTime(CurrentTime + secondsOnOne);
             _iterator++;
         }
 
         this.gameObject.SetActive(false);
-        await _mainWorkersBuilding.MoveBack(Workers, _thisSelectable);
+        await _mainWorkersBuilding.MoveBack(Workers, _currentSelectable);
 
-        if (_profileBinding != null)  _profileBinding.BindAnimCurrencyView(true,true);
+        if (_profileBinding != null) _profileBinding.BindAnimCurrencyView(true, true);
 
-        _messegeToUser.SendMessageToUser($"Рабочие закончили, добыто Древесины {Woods} шт.",_thisSelectable.Icon);
+        BindMessege($"Рабочие закончили, добыто Древесины {Woods} шт.");
+    }
+
+    protected override void CanselCommandProccess(IDelete command)
+    {
+        BindMessege("Не хватает рабочих!");
+
+        IsProccess = false;
+        _isWorkerGo = false;
+    }
+    private bool HasCost()
+    {
+        if (Waiter != null) _currencyView.gameObject.SetActive(false);
+
+        if (_isWorkerGo)
+        {
+            _currencyView.gameObject.SetActive(false);
+            BindMessege($"Ожидание рабочих");
+        }
+
+        if (IsProccess) return false;
+
+
+        if (_profile.GetCurency(CurrencyType.Worker).Count < Workers)
+        {
+            int noneWorker = Mathf.Abs(_profile.GetCurency(CurrencyType.Worker).Count - Workers);
+            noneWorker = Mathf.Min(0, noneWorker);
+            BindMessege($"Не хватает рабочих ( {_profile.GetCurency(CurrencyType.Worker).Count - noneWorker})");
+            return false;
+        }
+        return true;
     }
 }

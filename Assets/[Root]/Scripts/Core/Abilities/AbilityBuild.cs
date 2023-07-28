@@ -1,192 +1,146 @@
-using System;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.UI;
 using Zenject;
 
-[RequireComponent(typeof(BuildProccesses),typeof(ProfileBinding))]
-public class AbilityBuild : CmdExe<IBuildProccess>, IProccess, ICost
+[RequireComponent(typeof(BuildProccesses), typeof(ProfileBinding))]
+public class AbilityBuild : QueueAssemblingExe<IBuildProccess>, IProccess, ICost
 {
-    [SerializeField] private EffectsView _effects;
-    [SerializeField] private List<GameObject> _buildsInterectiveObjects;
-   
-    [SerializeField] private Slider _buildSlider;  //Find [REFACTORING] LeftUI (Not slider)
-    [SerializeField] private float _maxTimeToBuild;
-    [SerializeField] private GameObject _gameobjectOnCompleted;
-    [SerializeField] private TMP_Text _textTimeFoUser;
-    
- 
-    
-   
-    private ProfileBinding _profileBinding;
-
-    [Space(10), Header("If you wonna this, this is Effects timeline")]
-    [SerializeField] private List<string> _dialogs;
-    
-    [SerializeField] private ClipType _clipType;
-    [SerializeField] private Transform _moveAfterDialog;
-    
-
-    [Space(10)]
-    
     [Space(10), Header("Workers unit (склад)")]
     [SerializeField] private WorkersBuild _mainWorkersBuilding;//Find [REFACTORING] BUILD IN SPACE
     [SerializeField] private Transform _workerGoTo;
 
-    private float currentTime;
-    private int _iterator;
-    private AsyncAwaiterTime _waiter;
-
-    [Inject] private DialogView _dialogView;
     [Inject] private MessegeView _messegeToUser;
-    [Inject] private ClipEffector _clipEffector;
     [Inject] private CurrencyView _currencyView;
-    [Inject] private SelectableValue selectValue;//Zenject not avaliable [REFACTORING]
-    [Inject] private IUserProfile _profile;//Zenject not avaliable [REFACTORING]
-    [Inject(Id = "HidenEndObject")] private GameObject _hidenGameEnd;
+    [Inject] private SelectableValue _selectValue;
 
-    private ISelectable buildProccess;
-
-    private bool _inProccessing;
     private bool _isWorkerGo;
-    public bool IsProccess => _inProccessing;
+    private int _iterator;
 
-    public int Woods { get => _profileBinding.Woods; set => _profileBinding.Woods = value; }
-    public int Diamonds { get => _profileBinding.Diamonds; set => _profileBinding.Diamonds = value; }
-    public int Workers { get => _profileBinding.Workers; set => _profileBinding.Workers = value; }
-    public int Irons { get => _profileBinding.Irons; set => Irons = value; }
-
-
-    private void OnValidate() => _profileBinding ??= GetComponent<ProfileBinding>();
-     
-    private void Awake()
+    [Inject]
+    private void Construct(MessegeView messegeToUser, CurrencyView currencyView, SelectableValue selectValue)
     {
-        _profileBinding ??= GetComponent<ProfileBinding>();
-        buildProccess = gameObject.GetComponent<ISelectable>();
-        
+        _messegeToUser = messegeToUser;
+        _currencyView = currencyView;
+        _selectValue = selectValue;
+        Init(GetComponent<ProfileBinding>(), gameObject.GetComponent<ISelectable>(), _messegeToUser, gameObject.GetComponent<Collider>());
     }
-    private void Update()
+    protected override void RefreshTime()
     {
-        if (_waiter != null)
+        if (Waiter != null)
         {
-            currentTime += Time.deltaTime;
-            _waiter.SetValue(currentTime);
-             
-            var convertToUser = TimeSpan.FromSeconds(currentTime);
-            var convertToUserMax = TimeSpan.FromSeconds(_maxTimeToBuild);
-            _textTimeFoUser.text = 
-                $"{convertToUser.Minutes:D2}:" +
-                $"{convertToUser.Seconds:D2}/ "+
-                $"{convertToUserMax.Minutes:D2}:" +
-                $"{convertToUserMax.Seconds:D2} ";
-
-            buildProccess.Health = Mathf.RoundToInt(currentTime / _maxTimeToBuild * 100);
-
-            if (selectValue.Value != buildProccess) return;
-
-             
-            _buildSlider.value = currentTime;
-            _buildSlider.maxValue = _maxTimeToBuild;
+            CurrentTime += Time.deltaTime;
+            Waiter.SetValue(CurrentTime);
+            UpdateProccess(CurrentTime);
         }
     }
-    protected override async void SpecificExecute(IBuildProccess command)
+    protected override async void OnCommandExecute(IBuildProccess command)
     {
-        if(_effects != null)    
-             _effects.DeactiveSelectedEffect();
+        if (GetProccessState() == false) return;
 
-        if (_waiter != null)
+        command.IsBuild = true;
+        _inProccessing = true;
+        _isWorkerGo = true;
+        DisposeCurrencyView(null, true);
+
+        bool isHasWorkers = await _mainWorkersBuilding.Move(Workers, _workerGoTo, _currentSelectable);
+
+        if (!isHasWorkers)
         {
-            _currencyView.gameObject.SetActive(false);
-            _messegeToUser.SendMessageToUser("Уже в процессе шеф!", buildProccess.Icon);
+            CanselCommandProccess(command);
             return;
+        }
+        _selectValue.SetValue(null);
+        BegineCommandExe();
+
+        _profileBinding.BindAnimCurrencyView(false, true);
+        _currencyView.gameObject.SetActive(false); //Find [REFACTORING]
+
+        int countObject = _interectiveObjects.Count;
+        float onOneObjectTime = _maxTimeToDo / countObject;
+        Waiter ??= new AsyncAwaiterTime(onOneObjectTime);
+
+        while (_iterator < countObject)
+        {
+            await Waiter;
+            _interectiveObjects[_iterator].SetActive(true); 
+            _iterator++;
+            Waiter = new AsyncAwaiterTime(CurrentTime + onOneObjectTime);
+        }
+
+        if (_gameobjectOnCompleted != null)
+            _gameobjectOnCompleted.SetActive(true);
+        this.gameObject.SetActive(false);
+
+        BindMessege($"{_currentSelectable.Name} закончено!");
+        await _mainWorkersBuilding.MoveBack(Workers, _currentSelectable);
+        _profileBinding.BindAnimCurrencyView(true, false, false);
+    }
+    
+    protected override void CanselCommandProccess(IBuildProccess command)
+    {
+        _currencyView.gameObject.SetActive(true);
+        BindMessege("Не хватает рабочих!");
+        command.IsBuild = false;
+        _inProccessing = false;
+        _isWorkerGo = false;
+    }
+
+    private void DisposeCurrencyView(string messege, bool withoutMessege = false)
+    {
+        _currencyView.gameObject.SetActive(false);
+        if (withoutMessege == false) BindMessege(messege);
+    }
+    private bool GetProccessState()
+    {
+        if (Waiter != null)
+        {
+
+            DisposeCurrencyView("Уже в процессе!");
+            return false;
         }
         else
         {
             if (_isWorkerGo)
             {
-                _currencyView.gameObject.SetActive(false);
-                _messegeToUser.SendMessageToUser("Ожидаем материалы...", buildProccess.Icon);
-                return;
+
+                DisposeCurrencyView("Ожидаем материалы...");
+                return false;
             }
 
-            if (_profile.GetCurency(CurrencyType.Wood).Count < Woods ||
-                _profile.GetCurency(CurrencyType.Worker).Count < Workers ||
-                _profile.GetCurency(CurrencyType.Diamond).Count < Diamonds ||
-                _profile.GetCurency(CurrencyType.Iron).Count < Irons)
+            if (!HasCost())
             {
-                _messegeToUser.SendMessageToUser("Не хватает материалов!", buildProccess.Icon);
-                return;
+
+                if (_mainWorkersBuilding != null && _mainWorkersBuilding._movementStopWorkers.Count < Workers)
+                {
+
+                    BindMessege("Не хватает рабочих!");
+                    return false;
+                }
+                else if (_mainWorkersBuilding == null)
+                {
+
+                    BindMessege("Хижина рабочих очень далеко!");
+                }
+
+                BindMessege("Не хватает материалов!");
+                return false;
             }
-
-            _messegeToUser.SendMessageToUser("Начинаем!", buildProccess.Icon);
-           
-
-        }
-        command.IsBuild = true;
-        _inProccessing = true;
-        _isWorkerGo = true;
-        _currencyView.gameObject.SetActive(false);
-
-
-
-        bool isHasWorkers = await _mainWorkersBuilding.Move(Workers, _workerGoTo, buildProccess);
-
-
-        if (!isHasWorkers)
-        {
-            _currencyView.gameObject.SetActive(true);
-            _messegeToUser.SendMessageToUser("Не хватает рабочих!", buildProccess.Icon);
-            command.IsBuild = false;
-            _inProccessing = false;
-            _isWorkerGo = false;
-            return;
-        }
-        _profileBinding.BindAnimCurrencyView(false, true);
-        _currencyView.gameObject.SetActive(false); //Find [REFACTORING]
-        _textTimeFoUser.gameObject.SetActive(true);
-        int countObject = _buildsInterectiveObjects.Count;
-        float onOneObjectTime = _maxTimeToBuild / countObject;
-        _waiter ??= new AsyncAwaiterTime(onOneObjectTime);
-
-        while (_iterator < countObject)
-        {
-            await _waiter;
-            _buildsInterectiveObjects[_iterator].SetActive(true);
-            _iterator++;
-            _waiter = new AsyncAwaiterTime(currentTime + onOneObjectTime);
-        }
-
-        if(_gameobjectOnCompleted != null)
-            _gameobjectOnCompleted.SetActive(true);
-        this.gameObject.SetActive(false);
-
-
-        _messegeToUser.SendMessageToUser($"{buildProccess.Name} закончено!", buildProccess.Icon);
-        await _mainWorkersBuilding.MoveBack(Workers, buildProccess);
-        _profileBinding.BindAnimCurrencyView(true, false, false);
-
-
-        if (_dialogView == null) return;
-        else
-        {
-            selectValue.SetValue(null);
-            _dialogView.SendDialog(_dialogs, 4, onEndDialog);
+            BindMessege("Начинаем!");
+            return true;
         }
     }
-
-    private void onEndDialog()
+    private bool HasCost()
     {
-        if (_clipEffector != null)
-            _clipEffector.Play(_clipType);
+        if (
+            _profile.GetCurency(CurrencyType.Wood).Count < Woods ||
 
-        if (_clipType == ClipType.DemoEnd && _moveAfterDialog != null)
-        {
-            
-            _gameobjectOnCompleted.GetComponent<NavMeshAgent>().destination = _moveAfterDialog.position;
-            if (_hidenGameEnd != null)
-                _hidenGameEnd.SetActive(true);
-        }
+            _mainWorkersBuilding._movementStopWorkers.Count < Workers ||
+
+            _profile.GetCurency(CurrencyType.Diamond).Count < Diamonds ||
+
+            _profile.GetCurency(CurrencyType.Iron).Count < Irons)
+
+        { return false; }
+
+        return true;
     }
 }

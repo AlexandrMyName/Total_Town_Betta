@@ -2,14 +2,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MessegeView : MonoBehaviour, IProccess
+public class MessegeView : MonoBehaviour, IProccess, IMessege
 {
     [SerializeField] private TMP_Text _messege;
     [SerializeField] private Image _icon;
 
     private bool _isActive;
     AsyncAwaiterTime _awaiter;
-    public bool IsProccess => _isActive;
+    public bool IsProccess { get => _isActive; set => _isActive = value; }
 
     private float currentTime;
 

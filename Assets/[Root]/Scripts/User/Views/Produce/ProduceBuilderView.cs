@@ -10,7 +10,7 @@ public class ProduceBuilderView : MonoBehaviour, IProccess
 
 
     private bool _isProccess;
-    public bool IsProccess { get => _isProccess; }
+    public bool IsProccess { get => _isProccess; set => _isProccess = value; }
 
     public void CanselOperation(Action onCansel , GameObject @object)
     {

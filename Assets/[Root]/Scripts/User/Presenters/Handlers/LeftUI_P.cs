@@ -1,6 +1,8 @@
 using TMPro;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class LeftUI_P : MonoBehaviour
 {
@@ -11,12 +13,17 @@ public class LeftUI_P : MonoBehaviour
     [SerializeField] private Slider _healthSlider;
     [SerializeField] private Image _backGround;
     [SerializeField] private Image _fill;
-
-    [SerializeField] private SelectableValue _selectableValue;
+    [SerializeField] private Button _onCloseUIbutton;
+    [Inject] private SelectableValue _selectableValue;
     private void Awake()
     {
         _selectableValue.OnValueChanged += onSelected;
-     
+        _onCloseUIbutton.onClick.AddListener(() =>
+        {
+            _healthSlider.gameObject.SetActive(false);
+            _image.gameObject.SetActive(false);
+            _selectableValue.SetValue(null);
+        });
         onSelected(null);
     }
     private void onSelected(ISelectable selectable)
@@ -41,5 +48,6 @@ public class LeftUI_P : MonoBehaviour
     private void OnDestroy()
     {
         _selectableValue.OnValueChanged -= onSelected;
+        _onCloseUIbutton.onClick.RemoveAllListeners();
     }
 }

@@ -80,7 +80,7 @@ public class CommandsView : MonoBehaviour
         
             if (view.Diamonds)
             {
-                view.Diamonds.text = $"{diamondCount}/ {charCurrent}{costs.Diamonds} ";
+                view.Diamonds.text = $"{charCurrent}{costs.Diamonds} ";
             if (diamondCount != 0 && costs.Diamonds != 0)
             {
                 if(executor is CmdExe<IBuildProccess>)
@@ -93,7 +93,7 @@ public class CommandsView : MonoBehaviour
             }
             if (view.Woods)
             {
-                view.Woods.text = $"{woodCount}/ {charCurrent}{costs.Woods} ";
+                view.Woods.text = $" {charCurrent}{costs.Woods} ";
            
                 if (woodCount != 0 && costs.Woods != 0)
                 {
@@ -107,7 +107,7 @@ public class CommandsView : MonoBehaviour
             }
             if (view.Workers)
             {
-                view.Workers.text = $"{workerCount}/ - {costs.Workers} ";
+                view.Workers.text = $"- {costs.Workers} ";
                 if (workerCount != 0 && costs.Workers != 0)
                 {
                     if (executor is CmdExe<IBuildProccess>)
@@ -120,7 +120,7 @@ public class CommandsView : MonoBehaviour
             }
             if (view.Irons)
             {
-             view.Irons.text = $"{ironCount}/ {charCurrent}{costs.Irons} ";
+             view.Irons.text = $"{charCurrent}{costs.Irons} ";
                 if (ironCount != 0 && costs.Irons != 0)
                 {
                     if (executor is CmdExe<IBuildProccess>)

@@ -2,5 +2,5 @@
 
 public interface IProccess  
 {
-  bool IsProccess { get; }
+  bool IsProccess { get; set; }
 }

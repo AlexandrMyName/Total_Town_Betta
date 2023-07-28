@@ -3601,7 +3601,7 @@ Transform:
   - {fileID: 5044834335756274709}
   - {fileID: 1188774490008899275}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -1.384, y: -220.463, z: -5.252}
 --- !u!95 &8980482447372077991
 Animator:
@@ -3633,7 +3633,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 7138757797696189350}
   m_Enabled: 1
   m_AgentTypeID: -334000983
-  m_Radius: 0.06
+  m_Radius: 0.02
   m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50

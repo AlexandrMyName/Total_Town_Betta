@@ -73,7 +73,7 @@ public class InterectiveText : MonoBehaviour
 
     public async void PlayEnd()
     {
-       
+        Debug.Log("END");
         _loadGameObjectRotate.SetActive(true);
         _loadPerccent.gameObject.SetActive(true);
 

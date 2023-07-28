@@ -12,8 +12,8 @@ public class ProduceUnitTask : MonoBehaviour, IUnitProduceTask
     [Inject] private ProduceUnitsPresenter _presenter;// Find ?
     [Inject] private IUserProfile _userProfile;
     [Inject] private SelectableValue _selectableValue;
+    [Inject] private MessegeView _messegeToUser;
 
-   
     private ISelectable _thisSelectable;
 
     private WorkersBuild _mainBuilding;
@@ -112,6 +112,8 @@ public class ProduceUnitTask : MonoBehaviour, IUnitProduceTask
         {
             case ProducerType.Worker:
 
+                BindMessege($"Рабочий поступил в ваше распоряжение ({_thisSelectable.Name})");
+
                 GameObject newWorker =  Instantiate(Resources.Load<GameObject>(producer.NameResource),
                     _mainBuilding.ContainerForWorkers,false);
                 newWorker.transform.position += new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
@@ -129,5 +131,9 @@ public class ProduceUnitTask : MonoBehaviour, IUnitProduceTask
 
            
         }
+    }
+    private void BindMessege(string messege)
+    {
+        _messegeToUser.SendMessageToUser(messege, _thisSelectable.Icon);
     }
 }

@@ -23,6 +23,7 @@ public class InterectionScroll : MonoBehaviour
     private void Constract(Camera camera)
     {
         _camera = camera;
+        _plane.SetNormalAndPosition(transform.up, transform.position);
 #if !UNITY_ANDROID
 
 sensetivity = 100f;
@@ -34,10 +35,20 @@ sensetivity = 100f;
 
     private void Update()
     {
-#if UNITY_ANDROID
- 
+        Vector3 cachedPos = _camera.transform.position;
+        cachedPos.x = Mathf.Clamp(cachedPos.x, minX, maxX);
+        cachedPos.y = Mathf.Clamp(cachedPos.y, minY, maxY);
+        cachedPos.z = Mathf.Clamp(cachedPos.z, minZ, maxZ);
 
-        if(Input.touchCount >= 1)
+        _camera.transform.position = cachedPos;
+
+
+
+
+#if UNITY_ANDROID
+
+
+        if (Input.touchCount >= 1)
         {
             _plane.SetNormalAndPosition(transform.up, transform.position);
 
@@ -75,11 +86,14 @@ sensetivity = 100f;
 
 
 #if UNITY_EDITOR
-        _camera.fieldOfView -= Input.GetAxis("Mouse ScrollWheel") * 20 ;
-        _camera.fieldOfView = Mathf.Clamp(_camera.fieldOfView, minY, maxY);
+        float mouseScroll = Input.GetAxis("Mouse ScrollWheel");
+        Vector3 planePos = GetPlanePosition(Input.mousePosition);
+        
+        if (mouseScroll != 0 && _camera.transform.position.y <= maxY)
+            _camera.transform.position = Vector3.LerpUnclamped(_camera.transform.position, planePos, mouseScroll);
 
+        
 
-       // if (!Input.GetMouseButton(1)) return;
         if (Input.mousePosition.y >= Screen.height - 2)
         {
             _camera.transform.position += Vector3.forward * 0.6f;

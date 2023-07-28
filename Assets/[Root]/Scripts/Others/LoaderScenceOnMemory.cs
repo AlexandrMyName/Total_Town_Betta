@@ -10,9 +10,13 @@ public class LoaderScenceOnMemory : MonoBehaviour
     private void Constract(InterectiveText interectiveText)
     {
         _interectiveText = interectiveText;
-        if(interectiveText != null)
+        
+    }
+    private void Start()
+    {
+        if (_interectiveText != null)
         {
-            interectiveText.LoadSceneAsync(this);
+            _interectiveText.LoadSceneAsync(this);
         }
     }
 }

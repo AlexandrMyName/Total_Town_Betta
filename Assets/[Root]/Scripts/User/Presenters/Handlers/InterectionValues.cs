@@ -9,6 +9,7 @@ public class InterectionValues : MonoBehaviour
     [Inject] private SelectableValue _selectableValue;
     [Inject] private Vector3Value _groundClickRMB;
     [Inject] private AttackableValue _attackableValue;
+    [Inject] private DialogObjectValue _dialogValue;
     #endregion
 
     private Camera _camera;
@@ -54,6 +55,11 @@ public class InterectionValues : MonoBehaviour
             {
                 _selectableValue.SetValue(selectable);
             }
+            if (weHit<IDialogObject>(hitsAll, out var dialog))
+            {
+                _selectableValue.SetValue(null);
+                _dialogValue.SetValue(dialog);
+            }
 
         }
         else
@@ -85,6 +91,11 @@ public class InterectionValues : MonoBehaviour
         if (weHit<ISelectable>(hitsAll, out var selectable))
         {
                 _selectableValue.SetValue(selectable);
+        }
+        if (weHit<IDialogObject>(hitsAll, out var dialog))
+        {
+                _selectableValue.SetValue(null);
+                _dialogValue.SetValue(dialog);
         }
     }
 #endif

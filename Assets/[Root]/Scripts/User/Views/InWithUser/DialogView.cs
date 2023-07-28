@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
-public class DialogView : MonoBehaviour, IProccess
+public class DialogView : MonoBehaviour, IProccess, IDialog
 {
-    [Header("Input this, if wonna play on awake"),Space(2)]
-    [SerializeField] private Animator _interactiveAnimator;
-    [SerializeField] private List<string> dialogs;
+    
     [SerializeField] private Sprite _spriteAwake;
-    [SerializeField] private EffectsView _effects;
+    
     [Space(20)]
     [SerializeField] private List<GameObject> _hidenObjects;
     [SerializeField] private GameObject _inputScriptsGM;
@@ -22,47 +19,11 @@ public class DialogView : MonoBehaviour, IProccess
     [SerializeField] private Button _onCancel;
 
     private AsyncAwaiterTime _waiterTime;
-    private bool _isProccess;
+    private bool _isProccess; 
+    private float currentTime;
+    public bool IsProccess { get => _isProccess; set => _isProccess = value; }
 
-   
-    float currentTime;
-    public bool IsProccess => _isProccess;
-
-
-
-     
-    public async void SendAwakeDialog(int secondsBetween)
-    {
-        if(_isProccess) return;
-
-         
-        _isProccess = true;
-        _onAccept.onClick.AddListener(OnClickAccept);
-        this.gameObject.SetActive(true);
-        _interactiveAnimator.SetTrigger("Hello");
-
-        foreach (var dialog in dialogs)
-        {
-            _waiterTime = new AsyncAwaiterTime(secondsBetween);
-            _dialog.text = dialog;
-            await _waiterTime;
-            _onAccept.gameObject.SetActive(true);
-            
-            _waiterTime = new AsyncAwaiterTime(100);
-            await _waiterTime;
-
-        }
-        _onAccept.onClick.RemoveAllListeners();
-        _onAccept.gameObject.SetActive(false);
-        this.gameObject.SetActive(false);
-        _inputScriptsGM.SetActive(true);
-         
-        _effects.ActiveSelectedEffect();
-        _isProccess = false;
-    }
-
-
-    public async void SendDialog(List<string> dialogs,int secondsBetween, Action onComplete, Sprite icon = null)
+    public async void SendDialog(List<string> dialogs,int secondsBetween, Action onComplete = null, Sprite icon = null)
     {
         if (_isProccess) return;
 
@@ -74,8 +35,6 @@ public class DialogView : MonoBehaviour, IProccess
             _image.sprite = _spriteAwake;
         }else _image.sprite = icon;
 
-
-
         _inputScriptsGM.SetActive(false);
         _isProccess = true;
         _onAccept.onClick.AddListener(OnClickAccept);
@@ -98,10 +57,15 @@ public class DialogView : MonoBehaviour, IProccess
         
         _inputScriptsGM.SetActive(true);
 
-        _effects.ActiveSelectedEffect();
         _isProccess = false;
-        onComplete?.Invoke();
-        
+        if (onComplete != null)
+        {
+            onComplete?.Invoke();
+        }
+
+        foreach (var hiden in _hidenObjects)
+            hiden.SetActive(true);
+
     }
     private void OnClickAccept()
     {
@@ -109,18 +73,7 @@ public class DialogView : MonoBehaviour, IProccess
         _onAccept.gameObject.SetActive(false);
     }
 
-    private void Awake()
-    {
-        if (dialogs.Count == 0)
-        {
-            this.gameObject.SetActive(false);
-            return;
-
-        }
-        _inputScriptsGM.SetActive(false);
-        _image.sprite = _spriteAwake;
-        SendAwakeDialog(4);
-    }
+    
     private void Update()
     {
          
